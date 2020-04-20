@@ -15,7 +15,8 @@ const express = require("express"),
     triangular_mesh: require(__dirname + "/../generators/triangular-mesh.js"),
     un_deux_trois: require(__dirname + "/../generators/un-deux-trois.js"),
     mondrian: require(__dirname + "/../generators/mondrian.js"),
-    mondrilab: require(__dirname + "/../generators/mondrilab.js")
+    mondrilab: require(__dirname + "/../generators/mondrilab.js"), //new generator image mondrilab
+    hypnosquares: require(__dirname + "/../generators/hypnosquares.js") //new generator image hypnosquares
   };
 
 function serveImage(res, error, img) {
@@ -117,9 +118,15 @@ router.get("/", function(req, res) {
       serveImage(res, error, img);
     });
   } else if (options.style === "mondrilab") {
-    options.colors = ["#E40920", "#F7A842", "#1356A2"];
+    options.colors = ["#A40920", "#B7A842", "#C356A2","#D40920", "#E7A842", "#F356A2"];
 
     generators.mondrilab(options, function(error, img) {
+      serveImage(res, error, img);
+    });
+  } else if (options.style === "hypnosquares") {
+    options.colors = ["#A40920", "#B7A842", "#C356A2","#D40920", "#E7A842", "#F356A2"];
+
+    generators.hypnosquares(options, function(error, img) {
       serveImage(res, error, img);
     });
   }

@@ -2,9 +2,10 @@ const fs = require("fs"),
   Canvas = require("canvas"),
   helpers = require(__dirname + "/../helpers/general.js");
 
+//smartDevel20200420 new style hypnotic squares
 module.exports = function(options, cb) {
   /* 
-    Based on https://generativeartistry.com/tutorials/piet-mondrian/
+    Based on https://generativeartistry.com/tutorials/hypnotic-squares/
   */
   console.log("generating squares...");
 

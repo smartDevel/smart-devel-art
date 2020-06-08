@@ -36,7 +36,7 @@ module.exports = function(options, cb) {
   canvas.height = height;
   ctx.lineWidth = 2;
 
-  var step = size / 7;
+ // var step = size / 7;
   var white = "#F2F5F1";
   
 //var size = 320;

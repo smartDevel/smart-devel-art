@@ -136,7 +136,7 @@ router.get("/", function(req, res) {
     });
   //smartDevel20200420 new style hypnosquares  
   } else if (options.style === "hypnosquares") {
-    options.colors = ["#A40920", "#B7A842", "#C356A2","#D40920", "#E7A842", "#F356A2"];
+    //options.colors = ["#A40920", "#B7A842", "#C356A2","#040920", "#E7A842", "#F356A2"];
 
     generators.hypnosquares(options, function(error, img) {
       serveImage(res, error, img);

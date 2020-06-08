@@ -15,7 +15,8 @@ const express = require("express"),
     triangular_mesh: require(__dirname + "/../generators/triangular-mesh.js"),
     un_deux_trois: require(__dirname + "/../generators/un-deux-trois.js"),
     mondrian: require(__dirname + "/../generators/mondrian.js"),
-    mondrilab: require(__dirname + "/../generators/mondrilab.js")
+    mondrilab: require(__dirname + "/../generators/mondrilab.js"), //new generator image mondrilab
+    hypnosquares: require(__dirname + "/../generators/hypnosquares.js") //new generator image hypnosquares
   };
 
 function serveImage(res, error, img) {
@@ -59,7 +60,8 @@ router.get("/", function(req, res) {
       height = reqHeight;
     }
   }
-
+//smartDevel20200420  
+/*
   const options = {
     style: req.query.style ? req.query.style : "cellular-automata",
     width: width,
@@ -68,7 +70,16 @@ router.get("/", function(req, res) {
       return color.replace("#", "");
     })
   };
-
+*/
+  
+  const options = {
+    style: req.query.style ? req.query.style : "mondrian", //smartDevel20200420 default style if style not mentioned
+    width: width,
+    height: height,
+    colors: colorPalette.map(function(color) {
+      return color.replace("#", "");
+    })
+  };
   if (options.style === "circles") {
     generators.circle_packing(options, function(error, img) {
       serveImage(res, error, img);
@@ -115,11 +126,19 @@ router.get("/", function(req, res) {
 
     generators.mondrian(options, function(error, img) {
       serveImage(res, error, img);
-    });
+    });  
+  //smartDevel20200420 new style mondrilab  
   } else if (options.style === "mondrilab") {
-    options.colors = ["#E40920", "#F7A842", "#1356A2"];
+    options.colors = ["#A40920", "#B7A842", "#C356A2","#D40920", "#E7A842", "#F356A2"];
 
     generators.mondrilab(options, function(error, img) {
+      serveImage(res, error, img);
+    });
+  //smartDevel20200420 new style hypnosquares  
+  } else if (options.style === "hypnosquares") {
+    //options.colors = ["#A40920", "#B7A842", "#C356A2","#040920", "#E7A842", "#F356A2"];
+
+    generators.hypnosquares(options, function(error, img) {
       serveImage(res, error, img);
     });
   }

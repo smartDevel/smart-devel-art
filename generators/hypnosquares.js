@@ -2,18 +2,21 @@ const fs = require("fs"),
   Canvas = require("canvas"),
   helpers = require(__dirname + "/../helpers/general.js");
 
+//smartDevel20200420 new style hypnotic squares
 module.exports = function(options, cb) {
   /* 
-    Based on https://generativeartistry.com/tutorials/piet-mondrian/
+    Based on https://generativeartistry.com/tutorials/hypnotic-squares/
   */
-  console.log("packing circles...");
+  console.log("generating squares...");
 
   let width = options.width || 584,
     height = options.height || 506,
     size = width,
-    colors = options.colors || ["#D40920", "#F7D842", "#1356A2"],
+    //colors = options.colors || ["#a40920", "#F7D842", "#1356A2"],
+    colors = options.colors || ['000', 'fff'],
     canvas = Canvas.createCanvas(width, height),
     ctx = canvas.getContext("2d");
+  console.log(colors);
 
   ctx.lineWidth = helpers.getRandomInt(1, 24);
   ctx.fillStyle = `#${colors[0]}`;
@@ -31,11 +34,53 @@ module.exports = function(options, cb) {
 
   canvas.width = width;
   canvas.height = height;
-  ctx.lineWidth = 8;
+  ctx.lineWidth = 2;
 
   var step = size / 7;
   var white = "#F2F5F1";
+  
+//var size = 320;
+//var dpr = window.devicePixelRatio;
+//canvas.width = size * dpr;
+//canvas.height = size * dpr;
+//ctx.scale(dpr, dpr);
+//context.lineWidth = 2;
 
+var finalSize = 3;
+var startSteps;
+var offset = 2;
+var tileStep = (size - offset * 2) / 7;
+var startSize = tileStep;
+var directions = [-1, 0, 1];
+
+function draw(x, y, width, height, xMovement, yMovement, steps, color) { //smartDevel20200421 random color chooser for stroke
+  ctx.beginPath();
+  ctx.rect(x, y, width, height);
+  ctx.strokeStyle = '#' + color;
+  ctx.stroke();
+    
+  if(steps >= 0) {
+    var newSize = (startSize) * (steps / startSteps) + finalSize;
+    var newX = x + (width - newSize) / 2
+    var newY = y + (height - newSize) / 2
+    newX = newX - ((x - newX) / (steps + 2)) * xMovement
+    newY = newY - ((y - newY) / (steps + 2)) * yMovement
+    var iColor = colors[Math.floor(Math.random() * colors.length)]; //smartDevel20200421 random color chooser for stroke
+    draw(newX, newY, newSize, newSize, xMovement, yMovement, steps - 1, iColor);//smartDevel20200421 random color chooser for stroke
+  }
+}
+
+for( var x = offset; x < size - offset; x += tileStep) {
+  for( var y = offset; y < size - offset; y += tileStep) {
+    startSteps = 2 + Math.ceil(Math.random() * 3)
+    var xDirection = directions[Math.floor(Math.random() * directions.length)]
+    var yDirection = directions[Math.floor(Math.random() * directions.length)]
+    var iColor2 = colors[Math.floor(Math.random() * colors.length)]; //smartDevel20200421 random color chooser for stroke
+    draw(x, y, startSize, startSize, xDirection, yDirection, startSteps - 1, iColor2);//smartDevel20200421 random color chooser for stroke
+  }
+}  
+  
+/*
   function splitSquaresWith(coordinates) {
     const { x, y } = coordinates;
 
@@ -115,7 +160,7 @@ module.exports = function(options, cb) {
     ctx.fill();
     ctx.stroke();
   }
-
+*/
   if (cb) {
     cb(null, {
       data: canvas.toBuffer().toString("base64")

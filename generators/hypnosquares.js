@@ -23,14 +23,14 @@ module.exports = function(options, cb) {
   ctx.strokeStyle = `#${colors[1]}`;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  let squares = [
-    {
-      x: 0,
-      y: 0,
-      width: width,
-      height: height
-    }
-  ];
+  // let squares = [
+  //   {
+  //     x: 0,
+  //     y: 0,
+  //     width: width,
+  //     height: height
+  //   }
+  // ];
 
   canvas.width = width;
   canvas.height = height;
